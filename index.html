@@ -1,133 +1,238 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#d10d61">
-<meta name="description" content="Oshi no Ko — Ruby Hoshino character page.">
-<title>Oshi no Ko — Ruby Hoshino</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#d10d61">
+  <meta name="description" content="Oshi no Ko — Ruby Hoshino character page.">
+  <title>Oshi no Ko — Ruby Hoshino</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-<div class="page" id="page">
-  <div class="pink-bg"></div>
-  <div class="white-bg"></div>
+  <div class="page" id="page">
+    <div class="pink-bg"></div>
+    <div class="white-bg"></div>
 
-  <header class="topbar">
-    <a class="brand-mini" href="#top" aria-label="Oshi no Ko home">
-      <span>OSHI</span><span>NO KO</span>
-    </a>
+    <header class="topbar">
+      <a class="brand-mini" href="#top" aria-label="Oshi no Ko home">
+        <span>OSHI</span>
+        <span>NO KO</span>
+      </a>
 
-    <nav class="nav" aria-label="Primary navigation">
-      <a class="nav-link active" id="characterNav" href="#character">Character</a>
-      <a class="nav-link" id="trailerNav" href="#details">Trailer</a>
-    </nav>
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="nav-link active" href="#character">Character</a>
+      </nav>
 
-    <button class="settings-btn" id="settingsBtn" aria-label="Open settings" aria-expanded="false">⚙</button>
-  </header>
+      <button
+        class="settings-btn"
+        id="settingsBtn"
+        type="button"
+        aria-label="Open settings"
+        aria-expanded="false"
+      >
+        ⚙
+      </button>
+    </header>
 
-  <main id="top">
-    <section class="hero" id="character">
-      <div class="hero-copy">
-        <div class="jp-title">【推しの子】</div>
-        <div class="en-title">OSHI NO KO</div>
-        <div class="title-rule"></div>
-
-        <button class="watch-btn" id="startWatch" type="button">
-          ▶ <span>START WATCH</span>
-        </button>
-      </div>
-
-      <div class="character-wrap" aria-hidden="true">
-        <img id="rubyImage" src="assets/ruby-character.png" alt="">
-      </div>
-
-      <aside class="about" id="about">
-        <div class="eyebrow" id="aboutEyebrow">ABOUT</div>
-        <h1 id="name">Ruby Hoshino</h1>
-
-        <p id="description">
-          Ruby Hoshino adalah seorang gadis yang penuh semangat dan bermimpi menjadi idol seperti ibunya.
-          Dengan tekad kuat, bakat yang terus berkembang, dan kecintaan pada panggung, ia berjuang untuk
-          mewujudkan mimpinya bersama B-Komachi.
-        </p>
-
-        <dl class="meta">
-          <div><dt>ANIME</dt><dd id="animeName">Oshi no Ko</dd></div>
-          <div><dt>NAME</dt><dd id="metaName">Ruby Hoshino</dd></div>
-          <div><dt>ROLE</dt><dd id="role">Idol / Main Character</dd></div>
-          <div><dt>GROUP</dt><dd id="group">B-Komachi</dd></div>
-        </dl>
-      </aside>
-
-      <div class="scroll-hint" id="scrollHint">SCROLL <span>↓</span></div>
-    </section>
-
-    <section class="details" id="details">
-      <div class="details-inner">
-        <div class="details-heading">
-          <div class="section-kicker">CHARACTER</div>
-          <h2>RUBY HOSHINO</h2>
+    <main id="top">
+      <section class="hero" id="character">
+        <div class="hero-copy">
+          <div class="jp-title">【推しの子】</div>
+          <div class="en-title">OSHI NO KO</div>
+          <div class="title-rule"></div>
         </div>
-        <p id="secondaryText">
-          An idol chasing the same stage her mother once stood on — with her own dreams,
-          determination, and starry-eyed energy.
-        </p>
+
+        <div class="character-wrap" aria-hidden="true">
+          <img
+            id="rubyImage"
+            src="assets/ruby-character.png"
+            alt=""
+          >
+        </div>
+
+        <aside class="about" id="about">
+          <div class="eyebrow" id="aboutEyebrow">ABOUT</div>
+
+          <h1 id="name">Ruby Hoshino</h1>
+
+          <p id="description">
+            Ruby Hoshino adalah seorang gadis yang penuh semangat dan bermimpi menjadi idol seperti ibunya.
+            Dengan tekad kuat, bakat yang terus berkembang, dan kecintaan pada panggung, ia berjuang untuk
+            mewujudkan mimpinya bersama B-Komachi.
+          </p>
+
+          <dl class="meta">
+            <div>
+              <dt>ANIME</dt>
+              <dd id="animeName">Oshi no Ko</dd>
+            </div>
+
+            <div>
+              <dt>NAME</dt>
+              <dd id="metaName">Ruby Hoshino</dd>
+            </div>
+
+            <div>
+              <dt>ROLE</dt>
+              <dd id="role">Idol / Main Character</dd>
+            </div>
+
+            <div>
+              <dt>GROUP</dt>
+              <dd id="group">B-Komachi</dd>
+            </div>
+          </dl>
+        </aside>
+
+        <div class="scroll-hint" id="scrollHint">
+          SCROLL <span>↓</span>
+        </div>
+      </section>
+
+      <section class="details" id="details">
+        <div class="details-inner">
+          <div class="details-heading">
+            <div class="section-kicker">CHARACTER</div>
+            <h2>RUBY HOSHINO</h2>
+          </div>
+
+          <p id="secondaryText">
+            An idol chasing the same stage her mother once stood on — with her own dreams,
+            determination, and starry-eyed energy.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <aside
+    class="settings"
+    id="settingsPanel"
+    aria-hidden="true"
+  >
+    <div class="settings-head">
+      <strong>Settings</strong>
+
+      <button
+        id="closeSettings"
+        type="button"
+        aria-label="Close settings"
+      >
+        ×
+      </button>
+    </div>
+
+    <div class="settings-body">
+
+      <div class="settings-section">
+        <div class="settings-section-title">Character</div>
+
+        <label class="setting-row setting-row-column">
+          <div class="setting-label">
+            <span>Character Size</span>
+            <strong id="characterSizeValue">100%</strong>
+          </div>
+
+          <input
+            id="characterSize"
+            class="range-input"
+            type="range"
+            min="70"
+            max="130"
+            step="1"
+            value="100"
+          >
+        </label>
       </div>
-    </section>
-  </main>
-</div>
 
-<aside class="settings" id="settingsPanel" aria-hidden="true">
-  <div class="settings-head">
-    <strong>Settings</strong>
-    <button id="closeSettings" aria-label="Close settings" type="button">×</button>
-  </div>
+      <div class="settings-section">
+        <div class="settings-section-title">Website Settings</div>
 
-  <div class="settings-body">
-    <label class="setting-row">
-      <span>Theme</span>
-      <select id="themeSelect">
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
-    </label>
+        <label class="setting-row">
+          <span>Theme</span>
 
-    <label class="setting-row">
-      <span>Accent</span>
-      <input id="accentInput" type="color" value="#d10d61">
-    </label>
+          <select id="themeSelect">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
 
-    <label class="setting-row">
-      <span>Animations</span>
-      <input id="motionToggle" type="checkbox" checked>
-    </label>
+        <label class="setting-row">
+          <span>Accent</span>
 
-    <label class="setting-row">
-      <span>Parallax</span>
-      <input id="parallaxToggle" type="checkbox" checked>
-    </label>
+          <input
+            id="accentInput"
+            type="color"
+            value="#d10d61"
+            aria-label="Accent color"
+          >
+        </label>
 
-    <label class="setting-row">
-      <span>Scroll hint</span>
-      <input id="hintToggle" type="checkbox" checked>
-    </label>
+        <label class="setting-row">
+          <span>Animations</span>
 
-    <button class="reset" id="resetSettings" type="button">Reset settings</button>
-  </div>
+          <input
+            id="motionToggle"
+            type="checkbox"
+            checked
+          >
+        </label>
 
-  <div class="settings-foot">
-    Edit <code>settings.yml</code> to change the site without touching the layout.
-  </div>
-</aside>
+        <label class="setting-row">
+          <span>Parallax</span>
 
-<div class="settings-backdrop" id="settingsBackdrop"></div>
+          <input
+            id="parallaxToggle"
+            type="checkbox"
+            checked
+          >
+        </label>
+      </div>
 
-<noscript>This site uses JavaScript for the settings drawer and YAML configuration.</noscript>
-<script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
-<script src="script.js"></script>
+      <button
+        class="reset"
+        id="resetSettings"
+        type="button"
+      >
+        Reset settings
+      </button>
+    </div>
+
+    <div class="settings-foot">
+      <strong>Config guide</strong>
+
+      <p>
+        Edit <code>settings.yml</code> to change the website content,
+        character image, default character size, colors, theme, animations,
+        and parallax without editing the HTML layout.
+      </p>
+
+      <p>
+        Browser settings are saved automatically and override the defaults
+        from <code>settings.yml</code>.
+      </p>
+    </div>
+  </aside>
+
+  <div
+    class="settings-backdrop"
+    id="settingsBackdrop"
+  ></div>
+
+  <noscript>
+    This site uses JavaScript for the settings drawer and YAML configuration.
+  </noscript>
+
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
