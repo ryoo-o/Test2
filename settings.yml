@@ -1,0 +1,51 @@
+# ==========================================
+# Oshi no Ko — Ruby Hoshino Website Settings
+# Edit this file to change the website.
+# ==========================================
+
+site:
+  title: "Oshi no Ko"
+  description: "A Ruby Hoshino character landing page."
+  language: "id"
+
+theme:
+  accent: "#ca1265"
+  accentSecondary: "#ff4d9d"
+  pinkBackground: "#c80e61"
+
+layout:
+  heroMinHeight: 760
+
+character:
+  name: "Ruby Hoshino"
+  role: "Idol / Main Character"
+  group: "B-Komachi"
+  image: "assets/ruby-character.png"
+
+about:
+  label: "ABOUT"
+  description: "Ruby Hoshino adalah seorang gadis yang penuh semangat dan bermimpi menjadi idol seperti ibunya. Dengan tekad kuat, bakat yang terus berkembang, dan kecintaan pada panggung, ia berjuang untuk mewujudkan mimpinya bersama B-Komachi."
+  secondary: "An idol chasing the same stage her mother once stood on — with her own dreams, determination, and starry-eyed energy."
+
+navigation:
+  showAllEpisodes: false
+  showTrailer: false
+  showStartWatch: false
+  showCharacter: true
+
+behavior:
+  animations: true
+  parallax: true
+  scrollHint: true
+  saveLocalSettings: true
+
+seo:
+  themeColor: "#ca1265"
+  ogTitle: "Oshi no Ko — Ruby Hoshino"
+  ogDescription: "Ruby Hoshino character page."
+
+# Optional custom links if you add more pages later.
+links:
+  episodes: ""
+  trailer: ""
+  officialSite: ""
