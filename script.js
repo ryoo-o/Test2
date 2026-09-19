@@ -5,25 +5,20 @@ const state = {
 const $ = (selector) => document.querySelector(selector);
 const root = document.documentElement;
 const page = document.body;
-
 const STORAGE_KEY = "oshi-settings";
 
-const DEFAULTS = {
+const defaults = {
   theme: "light",
-  accent: "#d10d61",
+  accent: "#ca1265",
   animations: true,
-  parallax: true,
-  characterSize: 100
+  parallax: true
 };
 
-function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
-}
-
-function safeNumber(value, fallback) {
-  const number = Number(value);
-  return Number.isFinite(number) ? number : fallback;
-}
+let characterScale = 1;
+let currentX = 0;
+let currentY = 0;
+let targetX = 0;
+let targetY = 0;
 
 function normalizeColor(value, fallback) {
   if (typeof value !== "string") {
@@ -39,27 +34,14 @@ function normalizeColor(value, fallback) {
   return fallback;
 }
 
-function getSavedSettings() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+function normalizeCharacterSize(value) {
+  const size = Number(value);
 
-    if (!saved || typeof saved !== "object") {
-      return null;
-    }
-
-    return saved;
-  } catch (error) {
-    console.warn("Could not read saved settings:", error);
-    return null;
+  if (!Number.isFinite(size)) {
+    return 100;
   }
-}
 
-function saveSettings(settings) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-  } catch (error) {
-    console.warn("Could not save settings:", error);
-  }
+  return Math.min(Math.max(size, 70), 130);
 }
 
 function setText(selector, value) {
@@ -70,145 +52,159 @@ function setText(selector, value) {
   }
 }
 
-function setCharacterSize(size) {
-  const safeSize = clamp(
-    safeNumber(size, DEFAULTS.characterSize),
-    70,
-    130
-  );
+function getSavedSettings() {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(STORAGE_KEY)
+    );
 
-  const scale = safeSize / 100;
+    if (!saved || typeof saved !== "object") {
+      return null;
+    }
 
-  root.style.setProperty(
-    "--character-scale",
-    scale.toFixed(2)
-  );
-
-  const sizeInput = $("#characterSize");
-  const sizeValue = $("#characterSizeValue");
-
-  if (sizeInput) {
-    sizeInput.value = String(safeSize);
-  }
-
-  if (sizeValue) {
-    sizeValue.textContent = `${safeSize}%`;
+    return saved;
+  } catch {
+    return null;
   }
 }
 
 function applyTheme(theme) {
-  const normalizedTheme = theme === "dark"
+  const value = theme === "dark"
     ? "dark"
     : "light";
 
   page.classList.toggle(
     "dark",
-    normalizedTheme === "dark"
+    value === "dark"
   );
 
-  const themeSelect = $("#themeSelect");
+  const select = $("#themeSelect");
 
-  if (themeSelect) {
-    themeSelect.value = normalizedTheme;
+  if (select) {
+    select.value = value;
   }
 }
 
 function applyAccent(accent) {
-  const normalizedAccent = normalizeColor(
+  const value = normalizeColor(
     accent,
-    DEFAULTS.accent
+    defaults.accent
   );
 
   root.style.setProperty(
     "--accent",
-    normalizedAccent
+    value
   );
 
-  const accentInput = $("#accentInput");
+  const input = $("#accentInput");
 
-  if (accentInput) {
-    accentInput.value = normalizedAccent;
+  if (input) {
+    input.value = value;
   }
 
-  const themeColorMeta = document.querySelector(
-    'meta[name="theme-color"]'
-  );
+  const themeColor =
+    document.querySelector(
+      'meta[name="theme-color"]'
+    );
 
-  if (themeColorMeta) {
-    themeColorMeta.setAttribute(
+  if (themeColor) {
+    themeColor.setAttribute(
       "content",
-      normalizedAccent
+      value
     );
   }
 }
 
-function applyMotion(enabled) {
-  const animationsEnabled = enabled !== false;
+function applyAnimations(enabled) {
+  const value = enabled !== false;
 
   page.classList.toggle(
     "no-motion",
-    !animationsEnabled
+    !value
   );
 
-  const motionToggle = $("#motionToggle");
+  const toggle = $("#motionToggle");
 
-  if (motionToggle) {
-    motionToggle.checked = animationsEnabled;
+  if (toggle) {
+    toggle.checked = value;
   }
 }
 
 function applyParallax(enabled) {
-  const parallaxEnabled = enabled !== false;
+  const value = enabled !== false;
 
-  const parallaxToggle = $("#parallaxToggle");
+  const toggle = $("#parallaxToggle");
 
-  if (parallaxToggle) {
-    parallaxToggle.checked = parallaxEnabled;
+  if (toggle) {
+    toggle.checked = value;
   }
 
-  if (!parallaxEnabled) {
+  if (!value) {
     targetX = 0;
     targetY = 0;
   }
 }
 
-function applySaved(saved) {
-  const settings = {
-    ...DEFAULTS,
-    ...saved
-  };
+function applyCharacterSize(size) {
+  const value = normalizeCharacterSize(size);
 
-  applyTheme(settings.theme);
-  applyAccent(settings.accent);
-  applyMotion(settings.animations);
-  applyParallax(settings.parallax);
+  characterScale = value / 100;
 
-  setCharacterSize(
-    safeNumber(
-      settings.characterSize,
-      DEFAULTS.characterSize
-    )
+  root.style.setProperty(
+    "--character-scale",
+    characterScale.toFixed(2)
+  );
+}
+
+function applySavedSettings(saved) {
+  applyTheme(
+    saved.theme ?? defaults.theme
+  );
+
+  applyAccent(
+    saved.accent ?? defaults.accent
+  );
+
+  applyAnimations(
+    saved.animations ?? defaults.animations
+  );
+
+  applyParallax(
+    saved.parallax ?? defaults.parallax
   );
 }
 
 function getCurrentSettings() {
   return {
-    theme: $("#themeSelect")?.value || DEFAULTS.theme,
-    accent: $("#accentInput")?.value || DEFAULTS.accent,
-    animations: $("#motionToggle")?.checked !== false,
-    parallax: $("#parallaxToggle")?.checked !== false,
-    characterSize: safeNumber(
-      $("#characterSize")?.value,
-      DEFAULTS.characterSize
-    )
+    theme:
+      $("#themeSelect")?.value ??
+      defaults.theme,
+
+    accent:
+      $("#accentInput")?.value ??
+      defaults.accent,
+
+    animations:
+      $("#motionToggle")?.checked ??
+      defaults.animations,
+
+    parallax:
+      $("#parallaxToggle")?.checked ??
+      defaults.parallax
   };
 }
 
-function saveCurrentSettings() {
+function saveSettings() {
   const settings = getCurrentSettings();
 
-  saveSettings(settings);
-  applySaved(settings);
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(settings)
+    );
+  } catch {}
+
+  applySavedSettings(settings);
 }
 
 function applyConfig(config) {
@@ -218,72 +214,84 @@ function applyConfig(config) {
   const about = config.about || {};
   const behavior = config.behavior || {};
 
-  if (site.title) {
-    document.title = site.title;
-  }
+  document.title =
+    site.title ||
+    document.title;
 
-  if (site.description) {
-    const descriptionMeta = document.querySelector(
+  const descriptionMeta =
+    document.querySelector(
       'meta[name="description"]'
     );
 
-    if (descriptionMeta) {
-      descriptionMeta.setAttribute(
-        "content",
-        site.description
-      );
-    }
+  if (
+    descriptionMeta &&
+    site.description
+  ) {
+    descriptionMeta.setAttribute(
+      "content",
+      site.description
+    );
   }
 
   if (site.language) {
-    document.documentElement.lang = site.language;
+    document.documentElement.lang =
+      site.language;
   }
 
   setText(
     "#name",
-    character.name || "Ruby Hoshino"
+    character.name ||
+      "Ruby Hoshino"
   );
 
   setText(
     "#metaName",
-    character.name || "Ruby Hoshino"
+    character.name ||
+      "Ruby Hoshino"
   );
 
   setText(
     "#animeName",
-    site.title || "Oshi no Ko"
+    site.title ||
+      "Oshi no Ko"
   );
 
   setText(
     "#role",
-    character.role || "Idol / Main Character"
+    character.role ||
+      "Idol / Main Character"
   );
 
   setText(
     "#group",
-    character.group || "B-Komachi"
+    character.group ||
+      "B-Komachi"
   );
 
   setText(
     "#description",
-    about.description || ""
+    about.description ||
+      ""
   );
 
   setText(
     "#secondaryText",
-    about.secondary || ""
+    about.secondary ||
+      ""
   );
 
   setText(
     "#aboutEyebrow",
-    about.label || "ABOUT"
+    about.label ||
+      "ABOUT"
   );
 
   if (character.image) {
     const image = $("#rubyImage");
 
     if (image) {
-      image.src = character.image;
+      image.src =
+        character.image;
     }
   }
 
@@ -291,7 +299,7 @@ function applyConfig(config) {
     "--accent",
     normalizeColor(
       theme.accent,
-      DEFAULTS.accent
+      defaults.accent
     )
   );
 
@@ -307,54 +315,49 @@ function applyConfig(config) {
     "--pink",
     normalizeColor(
       theme.pinkBackground,
-      DEFAULTS.accent
+      "#c80e61"
     )
   );
 
-  const configuredTheme =
-    theme.default === "dark"
-      ? "dark"
-      : "light";
+  applyCharacterSize(
+    character.size
+  );
 
-  const configuredCharacterSize =
-    safeNumber(
-      character.size,
-      DEFAULTS.characterSize
-    );
+  const saved =
+    getSavedSettings();
 
-  const savedSettings = getSavedSettings();
-
-  if (savedSettings) {
-    applySaved(savedSettings);
+  if (saved) {
+    applySavedSettings(saved);
   } else {
-    applyTheme(configuredTheme);
+    applyTheme(
+      theme.default ||
+        defaults.theme
+    );
 
     applyAccent(
-      theme.accent || DEFAULTS.accent
+      theme.accent ||
+        defaults.accent
     );
 
-    applyMotion(
+    applyAnimations(
       behavior.animations !== false
     );
 
     applyParallax(
       behavior.parallax !== false
     );
-
-    setCharacterSize(
-      configuredCharacterSize
-    );
   }
 }
 
 async function loadConfig() {
   try {
-    const response = await fetch(
-      "settings.yml",
-      {
-        cache: "no-store"
-      }
-    );
+    const response =
+      await fetch(
+        "settings.yml",
+        {
+          cache: "no-store"
+        }
+      );
 
     if (!response.ok) {
       throw new Error(
@@ -362,41 +365,98 @@ async function loadConfig() {
       );
     }
 
-    const text = await response.text();
+    const text =
+      await response.text();
 
     if (
       !window.jsyaml ||
-      typeof window.jsyaml.load !== "function"
+      typeof window.jsyaml.load !==
+        "function"
     ) {
       throw new Error(
-        "js-yaml is not available."
+        "js-yaml unavailable"
       );
     }
 
     state.config =
       window.jsyaml.load(text) || {};
 
-    applyConfig(state.config);
+    applyConfig(
+      state.config
+    );
   } catch (error) {
     console.warn(
       "settings.yml could not be loaded:",
       error
     );
 
-    applyTheme(DEFAULTS.theme);
-    applyAccent(DEFAULTS.accent);
-    applyMotion(DEFAULTS.animations);
-    applyParallax(DEFAULTS.parallax);
-    setCharacterSize(DEFAULTS.characterSize);
+    applyTheme(
+      defaults.theme
+    );
+
+    applyAccent(
+      defaults.accent
+    );
+
+    applyAnimations(
+      defaults.animations
+    );
+
+    applyParallax(
+      defaults.parallax
+    );
+
+    applyCharacterSize(100);
+  }
+}
+
+function resetSettings() {
+  try {
+    localStorage.removeItem(
+      STORAGE_KEY
+    );
+  } catch {}
+
+  if (state.config) {
+    applyConfig(
+      state.config
+    );
+  } else {
+    applyTheme(
+      defaults.theme
+    );
+
+    applyAccent(
+      defaults.accent
+    );
+
+    applyAnimations(
+      defaults.animations
+    );
+
+    applyParallax(
+      defaults.parallax
+    );
+
+    applyCharacterSize(100);
   }
 }
 
 function openSettings(open = true) {
-  const panel = $("#settingsPanel");
-  const backdrop = $("#settingsBackdrop");
-  const button = $("#settingsBtn");
+  const panel =
+    $("#settingsPanel");
 
-  if (!panel || !backdrop || !button) {
+  const backdrop =
+    $("#settingsBackdrop");
+
+  const button =
+    $("#settingsBtn");
+
+  if (
+    !panel ||
+    !backdrop ||
+    !button
+  ) {
     return;
   }
 
@@ -436,96 +496,65 @@ $("#settingsBackdrop")?.addEventListener(
   () => openSettings(false)
 );
 
+$("#resetSettings")?.addEventListener(
+  "click",
+  resetSettings
+);
+
 $("#themeSelect")?.addEventListener(
   "change",
-  saveCurrentSettings
+  saveSettings
 );
 
 $("#accentInput")?.addEventListener(
   "input",
-  saveCurrentSettings
+  saveSettings
 );
 
 $("#accentInput")?.addEventListener(
   "change",
-  saveCurrentSettings
+  saveSettings
 );
 
 $("#motionToggle")?.addEventListener(
   "change",
-  saveCurrentSettings
+  saveSettings
 );
 
 $("#parallaxToggle")?.addEventListener(
   "change",
-  saveCurrentSettings
+  saveSettings
 );
-
-$("#characterSize")?.addEventListener(
-  "input",
-  () => {
-    const value = safeNumber(
-      $("#characterSize").value,
-      DEFAULTS.characterSize
-    );
-
-    setCharacterSize(value);
-
-    saveCurrentSettings();
-  }
-);
-
-$("#resetSettings")?.addEventListener(
-  "click",
-  () => {
-    try {
-      localStorage.removeItem(
-        STORAGE_KEY
-      );
-    } catch (error) {
-      console.warn(
-        "Could not reset saved settings:",
-        error
-      );
-    }
-
-    if (state.config) {
-      applyConfig(state.config);
-    } else {
-      applyTheme(DEFAULTS.theme);
-      applyAccent(DEFAULTS.accent);
-      applyMotion(DEFAULTS.animations);
-      applyParallax(DEFAULTS.parallax);
-      setCharacterSize(
-        DEFAULTS.characterSize
-      );
-    }
-  }
-);
-
-let currentX = 0;
-let currentY = 0;
-let targetX = 0;
-let targetY = 0;
 
 window.addEventListener(
   "mousemove",
   (event) => {
-    const parallaxToggle =
+    const toggle =
       $("#parallaxToggle");
 
     if (
-      !parallaxToggle ||
-      !parallaxToggle.checked
+      !toggle ||
+      !toggle.checked ||
+      page.classList.contains(
+        "no-motion"
+      )
     ) {
       return;
     }
 
     targetX =
-      (event.clientX / window.innerWidth - 0.5) * 12;
+      (
+        event.clientX /
+          window.innerWidth -
+        0.5
+      ) * 12;
 
     targetY =
-      (event.clientY / window.innerHeight - 0.5) * 8;
+      (
+        event.clientY /
+          window.innerHeight -
+        0.5
+      ) * 8;
   },
   {
     passive: true
@@ -533,41 +562,44 @@ window.addEventListener(
 );
 
 function frame() {
-  const image = $("#rubyImage");
-  const parallaxToggle =
+  const image =
+    $("#rubyImage");
+
+  const toggle =
     $("#parallaxToggle");
 
   if (
     image &&
-    !page.classList.contains("no-motion") &&
-    parallaxToggle?.checked
+    toggle?.checked &&
+    !page.classList.contains(
+      "no-motion"
+    )
   ) {
     currentX +=
-      (targetX - currentX) * 0.08;
+      (targetX - currentX) *
+      0.08;
 
     currentY +=
-      (targetY - currentY) * 0.08;
+      (targetY - currentY) *
+      0.08;
   } else {
     currentX +=
-      (0 - currentX) * 0.08;
+      (0 - currentX) *
+      0.08;
 
     currentY +=
-      (0 - currentY) * 0.08;
+      (0 - currentY) *
+      0.08;
   }
 
   if (image) {
-    const scale =
-      getComputedStyle(root)
-        .getPropertyValue(
-          "--character-scale"
-        )
-        .trim() || "1";
-
     image.style.transform =
-      `translate(calc(-50% + ${currentX}px), ${currentY}px) scale(${scale})`;
+      `translate(calc(-50% + ${currentX}px), ${currentY}px) scale(${characterScale})`;
   }
 
-  requestAnimationFrame(frame);
+  requestAnimationFrame(
+    frame
+  );
 }
 
 frame();
@@ -575,14 +607,18 @@ frame();
 const observer =
   "IntersectionObserver" in window
     ? new IntersectionObserver(
-        (items) => {
-          items.forEach((item) => {
-            if (item.isIntersecting) {
-              item.target.classList.add(
-                "show"
-              );
+        (entries) => {
+          entries.forEach(
+            (entry) => {
+              if (
+                entry.isIntersecting
+              ) {
+                entry.target.classList.add(
+                  "show"
+                );
+              }
             }
-          });
+          );
         },
         {
           threshold: 0.12
@@ -595,12 +631,18 @@ document
     ".about, .details-inner"
   )
   .forEach((element) => {
-    element.classList.add("reveal");
+    element.classList.add(
+      "reveal"
+    );
 
     if (observer) {
-      observer.observe(element);
+      observer.observe(
+        element
+      );
     } else {
-      element.classList.add("show");
+      element.classList.add(
+        "show"
+      );
     }
   });
 
