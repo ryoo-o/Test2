@@ -1,9 +1,9 @@
 :root{
-  --accent:#d10d61;
+  --accent:#ca1265;
   --accent-2:#ff4d9d;
   --ink:#111116;
   --paper:#f3f2ef;
-  --pink:#d10d61;
+  --pink:#c80e61;
   --shadow:0 22px 65px rgba(0,0,0,.18);
   --hero-height:100svh;
   --character-scale:1;
@@ -358,11 +358,9 @@ body{
   top:18px;
   right:18px;
   width:min(
-    360px,
+    340px,
     calc(100vw - 36px)
   );
-  max-height:calc(100vh - 36px);
-  overflow-y:auto;
   background:#171b24;
   color:#fff;
   border:1px solid rgba(255,255,255,.08);
@@ -388,10 +386,6 @@ body{
   padding:18px 18px 14px;
   border-bottom:1px solid rgba(255,255,255,.1);
   font-size:18px;
-  position:sticky;
-  top:0;
-  background:#171b24;
-  z-index:2;
 }
 
 .settings-head button{
@@ -407,23 +401,6 @@ body{
   padding:10px 18px 16px;
 }
 
-.settings-section{
-  margin-bottom:18px;
-}
-
-.settings-section:last-child{
-  margin-bottom:0;
-}
-
-.settings-section-title{
-  color:var(--accent-2);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  padding:8px 0 2px;
-}
-
 .setting-row{
   display:flex;
   align-items:center;
@@ -432,24 +409,6 @@ body{
   padding:13px 0;
   border-bottom:1px solid rgba(255,255,255,.08);
   font-size:13px;
-}
-
-.setting-row-column{
-  display:block;
-}
-
-.setting-label{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  margin-bottom:12px;
-}
-
-.setting-label strong{
-  color:#fff;
-  font-size:12px;
-  font-weight:800;
 }
 
 .setting-row select,
@@ -475,13 +434,6 @@ body{
   cursor:pointer;
 }
 
-.range-input{
-  width:100%;
-  margin:0;
-  accent-color:var(--accent);
-  cursor:pointer;
-}
-
 .reset{
   width:100%;
   border:0;
@@ -500,28 +452,6 @@ body{
 .reset:hover{
   opacity:.92;
   transform:translateY(-1px);
-}
-
-.settings-foot{
-  padding:13px 18px 16px;
-  color:#aeb3bf;
-  font-size:11px;
-  line-height:1.5;
-  border-top:1px solid rgba(255,255,255,.08);
-}
-
-.settings-foot strong{
-  display:block;
-  color:#fff;
-  margin-bottom:7px;
-}
-
-.settings-foot p{
-  margin:7px 0 0;
-}
-
-.settings code{
-  color:#fff;
 }
 
 .settings-backdrop{
@@ -842,7 +772,6 @@ body.no-motion *::after{
     top:10px;
     right:10px;
     width:calc(100vw - 20px);
-    max-height:calc(100vh - 20px);
   }
 }
 
