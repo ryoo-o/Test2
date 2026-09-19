@@ -1,51 +1,24 @@
-# ==========================================================
-# Oshi no Ko — Ruby Hoshino Website Settings
-# ==========================================================
-#
-# Edit this file to customize the website without changing
-# index.html, script.js, or styles.css.
-#
-# Browser settings made through the Settings panel are saved
-# locally and override the defaults below.
-# ==========================================================
-
 site:
   title: "Oshi no Ko"
   description: "A Ruby Hoshino character landing page."
   language: "id"
 
 theme:
-  # Default website theme when no browser setting is saved.
   default: "light"
-
-  # Main accent used throughout the website.
   accent: "#ca1265"
-
-  # Secondary accent used in the lower character section.
   accentSecondary: "#ff4d9d"
-
-  # Main pink background.
   pinkBackground: "#c80e61"
 
 character:
   name: "Ruby Hoshino"
   role: "Idol / Main Character"
   group: "B-Komachi"
-
-  # Character image path.
   image: "assets/ruby-character.png"
-
-  # Default character size.
-  # 100 = normal size
-  # 80  = smaller
-  # 120 = larger
   size: 100
 
 about:
   label: "ABOUT"
-
   description: "Ruby Hoshino adalah seorang gadis yang penuh semangat dan bermimpi menjadi idol seperti ibunya. Dengan tekad kuat, bakat yang terus berkembang, dan kecintaan pada panggung, ia berjuang untuk mewujudkan mimpinya bersama B-Komachi."
-
   secondary: "An idol chasing the same stage her mother once stood on — with her own dreams, determination, and starry-eyed energy."
 
 behavior:
