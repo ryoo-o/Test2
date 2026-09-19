@@ -14,7 +14,7 @@ character:
   role: "Idol / Main Character"
   group: "B-Komachi"
   image: "assets/ruby-character.png"
-  size: 80
+  size: 50
 
 about:
   label: "ABOUT"
