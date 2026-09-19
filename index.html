@@ -93,7 +93,7 @@
           </dl>
         </aside>
 
-        <div class="scroll-hint" id="scrollHint">
+        <div class="scroll-hint">
           SCROLL <span>↓</span>
         </div>
       </section>
@@ -132,71 +132,45 @@
     </div>
 
     <div class="settings-body">
+      <label class="setting-row">
+        <span>Theme</span>
 
-      <div class="settings-section">
-        <div class="settings-section-title">Character</div>
+        <select id="themeSelect">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
 
-        <label class="setting-row setting-row-column">
-          <div class="setting-label">
-            <span>Character Size</span>
-            <strong id="characterSizeValue">100%</strong>
-          </div>
+      <label class="setting-row">
+        <span>Accent</span>
 
-          <input
-            id="characterSize"
-            class="range-input"
-            type="range"
-            min="70"
-            max="130"
-            step="1"
-            value="100"
-          >
-        </label>
-      </div>
+        <input
+          id="accentInput"
+          type="color"
+          value="#ca1265"
+          aria-label="Accent color"
+        >
+      </label>
 
-      <div class="settings-section">
-        <div class="settings-section-title">Website Settings</div>
+      <label class="setting-row">
+        <span>Animations</span>
 
-        <label class="setting-row">
-          <span>Theme</span>
+        <input
+          id="motionToggle"
+          type="checkbox"
+          checked
+        >
+      </label>
 
-          <select id="themeSelect">
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </label>
+      <label class="setting-row">
+        <span>Parallax</span>
 
-        <label class="setting-row">
-          <span>Accent</span>
-
-          <input
-            id="accentInput"
-            type="color"
-            value="#d10d61"
-            aria-label="Accent color"
-          >
-        </label>
-
-        <label class="setting-row">
-          <span>Animations</span>
-
-          <input
-            id="motionToggle"
-            type="checkbox"
-            checked
-          >
-        </label>
-
-        <label class="setting-row">
-          <span>Parallax</span>
-
-          <input
-            id="parallaxToggle"
-            type="checkbox"
-            checked
-          >
-        </label>
-      </div>
+        <input
+          id="parallaxToggle"
+          type="checkbox"
+          checked
+        >
+      </label>
 
       <button
         class="reset"
@@ -205,21 +179,6 @@
       >
         Reset settings
       </button>
-    </div>
-
-    <div class="settings-foot">
-      <strong>Config guide</strong>
-
-      <p>
-        Edit <code>settings.yml</code> to change the website content,
-        character image, default character size, colors, theme, animations,
-        and parallax without editing the HTML layout.
-      </p>
-
-      <p>
-        Browser settings are saved automatically and override the defaults
-        from <code>settings.yml</code>.
-      </p>
     </div>
   </aside>
 
